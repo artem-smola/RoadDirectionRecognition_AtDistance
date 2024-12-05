@@ -13,3 +13,5 @@ const int kRoiHeight = 360;
 cv::Rect GetRoiRect(const cv::Mat &img);
 
 void MarkLaneAtDistance(cv::Mat &img, cv::Rect);
+
+std::vector<cv::Point> GetLanePixels(const cv::Mat &img);

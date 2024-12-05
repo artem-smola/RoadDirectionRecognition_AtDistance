@@ -20,10 +20,26 @@ cv::Rect GetRoiRect(const cv::Mat &img) {
 
 void MarkLaneAtDistance(cv::Mat &img, cv::Rect roi) {
   img = img(roi);
-  resize(img, img, cv::Size(kRoiWidth, kRoiHeight));
+  if (img.size().width != kRoiWidth || img.size().height != kRoiHeight) {
+    resize(img, img, cv::Size(kRoiWidth, kRoiHeight));
+  }
   TwinLiteNet twin_lite_net("../../TwinLiteNet-onnxruntime/models/best.onnx");
   cv::Mat da_out, ll_out;
   twin_lite_net.Infer(img, da_out, ll_out);
   img.setTo(cv::Scalar(0, 0, 0));
   img.setTo(cv::Scalar(0, 255, 255), ll_out);
+}
+
+std::vector<cv::Point> GetLanePixels(const cv::Mat &img) {
+  std::vector<cv::Point> lane_pixels;
+
+  for (int y = 0; y < img.rows; y++) {
+    for (int x = 0; x < img.cols; x++) {
+      cv::Vec3b pixel = img.at<cv::Vec3b>(y, x);
+      if (pixel[0] != 0 || pixel[1] != 0 || pixel[2] != 0) {
+        lane_pixels.emplace_back(x, y);
+      }
+    }
+  }
+  return lane_pixels;
 }
