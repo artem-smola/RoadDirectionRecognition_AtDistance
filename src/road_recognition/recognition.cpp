@@ -36,10 +36,14 @@ std::vector<cv::Point> GetLanePixels(const cv::Mat &img) {
   for (int y = 0; y < img.rows; y++) {
     for (int x = 0; x < img.cols; x++) {
       cv::Vec3b pixel = img.at<cv::Vec3b>(y, x);
-      if (pixel[0] != 0 || pixel[1] != 0 || pixel[2] != 0) {
+      if (!IsBlackPixel(pixel)) {
         lane_pixels.emplace_back(x, y);
       }
     }
   }
   return lane_pixels;
+}
+
+bool IsBlackPixel(cv::Vec3b pixel) {
+  return (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 0);
 }

@@ -4,13 +4,10 @@ cmake_minimum_required(VERSION 2.8.3)
 project(RoadRecognition)
 
 
-# Укажите путь к установленному ONNX Runtime
 set(ONNXRUNTIME_ROOTDIR "/home/artem/onnxruntime-linux-x64-1.20.0")  # Замените на ваш путь
 
-# Укажите директории для включения заголовочных файлов
 include_directories(${ONNXRUNTIME_ROOTDIR}/include)
 
-# Укажите директорию для библиотек
 link_directories(${ONNXRUNTIME_ROOTDIR}/lib)
 
 
@@ -57,7 +54,7 @@ target_include_directories(main PRIVATE
 
 target_link_libraries(main
     ${OpenCV_LIBS})
-# Линковка с библиотекой onnxruntime
+
 target_link_libraries(main onnxruntime) 
 
 # cuda libs

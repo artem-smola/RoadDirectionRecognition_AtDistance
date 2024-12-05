@@ -2,7 +2,7 @@ CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o: \
  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.cpp \
  /usr/include/stdc-predef.h \
  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
- /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/../../TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
+ /home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
  /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_cxx_api.h \
  /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_c_api.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
