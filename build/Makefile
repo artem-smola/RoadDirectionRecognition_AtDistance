@@ -177,6 +177,78 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/road_recognition/manager.o: src/road_recognition/manager.cpp.o
+.PHONY : src/road_recognition/manager.o
+
+# target to build an object file
+src/road_recognition/manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/manager.cpp.o
+.PHONY : src/road_recognition/manager.cpp.o
+
+src/road_recognition/manager.i: src/road_recognition/manager.cpp.i
+.PHONY : src/road_recognition/manager.i
+
+# target to preprocess a source file
+src/road_recognition/manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/manager.cpp.i
+.PHONY : src/road_recognition/manager.cpp.i
+
+src/road_recognition/manager.s: src/road_recognition/manager.cpp.s
+.PHONY : src/road_recognition/manager.s
+
+# target to generate assembly for a file
+src/road_recognition/manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/manager.cpp.s
+.PHONY : src/road_recognition/manager.cpp.s
+
+src/road_recognition/metrics.o: src/road_recognition/metrics.cpp.o
+.PHONY : src/road_recognition/metrics.o
+
+# target to build an object file
+src/road_recognition/metrics.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o
+.PHONY : src/road_recognition/metrics.cpp.o
+
+src/road_recognition/metrics.i: src/road_recognition/metrics.cpp.i
+.PHONY : src/road_recognition/metrics.i
+
+# target to preprocess a source file
+src/road_recognition/metrics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/metrics.cpp.i
+.PHONY : src/road_recognition/metrics.cpp.i
+
+src/road_recognition/metrics.s: src/road_recognition/metrics.cpp.s
+.PHONY : src/road_recognition/metrics.s
+
+# target to generate assembly for a file
+src/road_recognition/metrics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/metrics.cpp.s
+.PHONY : src/road_recognition/metrics.cpp.s
+
+src/road_recognition/reader.o: src/road_recognition/reader.cpp.o
+.PHONY : src/road_recognition/reader.o
+
+# target to build an object file
+src/road_recognition/reader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/reader.cpp.o
+.PHONY : src/road_recognition/reader.cpp.o
+
+src/road_recognition/reader.i: src/road_recognition/reader.cpp.i
+.PHONY : src/road_recognition/reader.i
+
+# target to preprocess a source file
+src/road_recognition/reader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/reader.cpp.i
+.PHONY : src/road_recognition/reader.cpp.i
+
+src/road_recognition/reader.s: src/road_recognition/reader.cpp.s
+.PHONY : src/road_recognition/reader.s
+
+# target to generate assembly for a file
+src/road_recognition/reader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/reader.cpp.s
+.PHONY : src/road_recognition/reader.cpp.s
+
 src/road_recognition/recognition.o: src/road_recognition/recognition.cpp.o
 .PHONY : src/road_recognition/recognition.o
 
@@ -216,6 +288,15 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/road_recognition/manager.o"
+	@echo "... src/road_recognition/manager.i"
+	@echo "... src/road_recognition/manager.s"
+	@echo "... src/road_recognition/metrics.o"
+	@echo "... src/road_recognition/metrics.i"
+	@echo "... src/road_recognition/metrics.s"
+	@echo "... src/road_recognition/reader.o"
+	@echo "... src/road_recognition/reader.i"
+	@echo "... src/road_recognition/reader.s"
 	@echo "... src/road_recognition/recognition.o"
 	@echo "... src/road_recognition/recognition.i"
 	@echo "... src/road_recognition/recognition.s"

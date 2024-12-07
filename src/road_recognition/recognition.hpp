@@ -13,37 +13,31 @@ const int kRoiHeight = 360;
 
 using Points = std::vector<cv::Point>;
 
-class DistantRoadDirectionRecognition {
+class DistantRoadRecognition {
 public:
-  virtual std::vector<Points> MarkLaneAtDistance(std::string out_path = "") = 0;
+  virtual Points MarkLaneAtDistance(cv::Mat img) = 0;
+  virtual ~DistantRoadRecognition() {}
+  virtual void SetRoi(cv::Mat img) = 0;
 
 protected:
-  DistantRoadDirectionRecognition(std::string path_to_photos,
-                                  PhotoExtension photos_extension);
-  virtual ~DistantRoadDirectionRecognition();
-  std::string path_to_photos_;
-  PhotoExtension photos_extension_;
-  std::vector<cv::String> photos_;
+  DistantRoadRecognition();
+  cv::Rect roi_;
 
 private:
-  virtual cv::Rect GetRoiRect() = 0;
-
   virtual void MarkLane(cv::Mat &img) = 0;
 
   virtual Points GetLanePixels(const cv::Mat &img) = 0;
 };
 
-class DistantRoadDirectionRecognitionTwinLiteNet
-    : public DistantRoadDirectionRecognition {
+class DistantRoadRecognitionTwinLiteNet : public DistantRoadRecognition {
 public:
-  DistantRoadDirectionRecognitionTwinLiteNet(std::string path_to_photos,
-                                             PhotoExtension photos_extension);
-  ~DistantRoadDirectionRecognitionTwinLiteNet();
+  DistantRoadRecognitionTwinLiteNet();
+  ~DistantRoadRecognitionTwinLiteNet();
 
-  std::vector<Points> MarkLaneAtDistance(std::string out_path = "");
+  Points MarkLaneAtDistance(cv::Mat);
+  void SetRoi(cv::Mat img);
 
 private:
-  cv::Rect GetRoiRect();
   void MarkLane(cv::Mat &img);
   Points GetLanePixels(const cv::Mat &img);
 };
