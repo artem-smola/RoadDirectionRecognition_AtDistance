@@ -1,4 +1,5 @@
 #pragma once
+#include "enums.hpp"
 #include "twinlitenet_onnxruntime.hpp"
 #include <iostream>
 #include <opencv2/dnn_superres.hpp>
@@ -10,10 +11,41 @@
 const int kRoiWidth = 640;
 const int kRoiHeight = 360;
 
-cv::Rect GetRoiRect(const cv::Mat &img);
+using Points = std::vector<cv::Point>;
 
-void MarkLaneAtDistance(cv::Mat &img, cv::Rect);
+class DistantRoadDirectionRecognition {
+public:
+  virtual std::vector<Points> MarkLaneAtDistance(std::string out_path = "") = 0;
 
-std::vector<cv::Point> GetLanePixels(const cv::Mat &img);
+protected:
+  DistantRoadDirectionRecognition(std::string path_to_photos,
+                                  PhotoExtension photos_extension);
+  virtual ~DistantRoadDirectionRecognition();
+  std::string path_to_photos_;
+  PhotoExtension photos_extension_;
+  std::vector<cv::String> photos_;
+
+private:
+  virtual cv::Rect GetRoiRect() = 0;
+
+  virtual void MarkLane(cv::Mat &img) = 0;
+
+  virtual Points GetLanePixels(const cv::Mat &img) = 0;
+};
+
+class DistantRoadDirectionRecognitionTwinLiteNet
+    : public DistantRoadDirectionRecognition {
+public:
+  DistantRoadDirectionRecognitionTwinLiteNet(std::string path_to_photos,
+                                             PhotoExtension photos_extension);
+  ~DistantRoadDirectionRecognitionTwinLiteNet();
+
+  std::vector<Points> MarkLaneAtDistance(std::string out_path = "");
+
+private:
+  cv::Rect GetRoiRect();
+  void MarkLane(cv::Mat &img);
+  Points GetLanePixels(const cv::Mat &img);
+};
 
 bool IsBlackPixel(cv::Vec3b pixel);

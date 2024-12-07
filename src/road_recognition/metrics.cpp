@@ -1,7 +1,8 @@
 #include "metrics.hpp"
 #include "recognition.hpp"
 
-double CompareByIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth) {
+double EvaluationByIoU(const cv::Mat &marking_res,
+                       const cv::Mat &ground_truth) {
   if (marking_res.rows != kRoiHeight || ground_truth.rows != kRoiHeight ||
       marking_res.cols != kRoiWidth || ground_truth.cols != kRoiWidth) {
     throw std::invalid_argument("Error: Incorrect image size");
@@ -29,8 +30,8 @@ double CompareByIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth) {
          static_cast<double>(num_of_union);
 }
 
-double CompareByAccuracy(const cv::Mat &marking_res,
-                         const cv::Mat &ground_truth) {
+double EvaluationByAccuracy(const cv::Mat &marking_res,
+                            const cv::Mat &ground_truth) {
   if (marking_res.rows != kRoiHeight || ground_truth.rows != kRoiHeight ||
       marking_res.cols != kRoiWidth || ground_truth.cols != kRoiWidth) {
     throw std::invalid_argument("Error: Incorrect image size");
