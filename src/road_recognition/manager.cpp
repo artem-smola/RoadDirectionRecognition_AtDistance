@@ -1,10 +1,8 @@
 #include "manager.hpp"
 
-Manager::Manager(Reader &reader) : reader_(reader) {}
-
 DistantRoadRecognitionManager::DistantRoadRecognitionManager(
     Reader &reader, DistantRoadRecognition &marker)
-    : Manager(reader), reader_(reader), marker_(marker) {
+    : Manager(), reader_(reader), marker_(marker) {
   cv::Mat sample = reader_.GetSample();
   marker_.SetRoi(sample);
 }
@@ -22,4 +20,31 @@ void DistantRoadRecognitionManager::Process() {
 }
 std::vector<Points> DistantRoadRecognitionManager::GetPixelsVectors() {
   return pixels_vectors_;
+}
+
+MetricsManager::MetricsManager(Reader &marking_res_reader, Reader &ground_truth_reader, MetricsEvaluator &evaluator) : marking_res_reader_(marking_res_reader), ground_truth_reader_(ground_truth_reader), evaluator_(evaluator), res_IoU_(kInitIncorrectMetricValue), res_accuracy_(kInitIncorrectMetricValue) {}
+
+void MetricsManager::Process(){
+  double sum_IoU = 0;
+  double sum_accuracy = 0;
+  for(size_t i = 0; i < marking_res_reader_.GetSize(); i++){
+    sum_IoU += evaluator_.GetIoU(marking_res_reader_.Read(), ground_truth_reader_.Read());
+    sum_accuracy += evaluator_.GetAccuracy(marking_res_reader_.Read(), ground_truth_reader_.Read());
+  }
+  res_IoU_ = sum_IoU / static_cast<double>(marking_res_reader_.GetSize());
+  res_accuracy_ = sum_accuracy / static_cast<double>(marking_res_reader_.GetSize());  
+}
+
+double MetricsManager::GetIoU(){
+  if (res_IoU_ == kInitIncorrectMetricValue){
+    Process();
+  }
+  return res_IoU_;
+}
+
+double MetricsManager::GetAccuracy(){
+  if (res_accuracy_ == kInitIncorrectMetricValue){
+    Process();
+  }
+  return res_accuracy_;
 }

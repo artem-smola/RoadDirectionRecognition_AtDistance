@@ -280,8 +280,10 @@ CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o: \
  /usr/local/include/opencv4/opencv2/videoio.hpp \
  /usr/local/include/opencv4/opencv2/imgproc.hpp \
  /usr/local/include/opencv4/opencv2/imgproc/segmentation.hpp \
- /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
+ /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.hpp \
  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/enums.hpp \
+ /usr/include/c++/13/iostream \
+ /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
  /home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
  /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_cxx_api.h \
  /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_c_api.h \
@@ -299,7 +301,6 @@ CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o: \
  /usr/local/include/opencv4/opencv2/flann/config.h \
  /usr/local/include/opencv4/opencv2/core/affine.hpp \
  /usr/local/include/opencv4/opencv2/core/utils/logger.hpp \
- /usr/include/c++/13/iostream \
  /usr/local/include/opencv4/opencv2/core/utils/logger.defines.hpp \
  /usr/local/include/opencv4/opencv2/core/utils/logtag.hpp \
  /usr/local/include/opencv4/opencv2/flann.hpp \

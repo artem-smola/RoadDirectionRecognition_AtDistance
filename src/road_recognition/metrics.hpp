@@ -2,8 +2,12 @@
 #include <opencv2/dnn_superres.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include "reader.hpp"
 
-double EvaluationByIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
+const double kInitIncorrectMetricValue = -1.0;
 
-double EvaluationByAccuracy(const cv::Mat &marking_res,
-                            const cv::Mat &ground_truth);
+class MetricsEvaluator {
+public:
+    double GetIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
+    double GetAccuracy(const cv::Mat &marking_res, const cv::Mat &ground_truth);
+};

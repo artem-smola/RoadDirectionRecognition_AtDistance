@@ -440,6 +440,7 @@ CMakeFiles/main.dir/main.cpp.o: /home/artem/RoadDirectionRecognition_AtDistance/
   /home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/enums.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.hpp \
+  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
   /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_c_api.h \
@@ -886,6 +887,7 @@ CMakeFiles/main.dir/src/road_recognition/manager.cpp.o: /home/artem/RoadDirectio
   /home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/enums.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.hpp \
+  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
   /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_c_api.h \
@@ -1326,6 +1328,7 @@ CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o: /home/artem/RoadDirectio
   /home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/enums.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp \
+  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.hpp \
   /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
   /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_c_api.h \
   /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_cxx_api.h \
@@ -2538,8 +2541,6 @@ CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o: /home/artem/RoadDire
 
 /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.cpp:
 
-/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp:
-
 /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.cpp:
 
 /usr/local/include/opencv4/opencv2/dnn_superres.hpp:
@@ -2553,6 +2554,8 @@ CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o: /home/artem/RoadDire
 /usr/include/c++/13/bits/fs_ops.h:
 
 /usr/include/c++/13/bits/fs_dir.h:
+
+/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp:
 
 /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.hpp:
 
