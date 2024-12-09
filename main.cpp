@@ -2,14 +2,33 @@
 #include <filesystem>
 
 int main() {
-  std::filesystem::path cwd = std::filesystem::current_path();
-  std::string dir_path = cwd.parent_path().string() + "/images/";
+  try {
+    std::filesystem::path cwd = std::filesystem::current_path();
+    std::string in_path = cwd.parent_path().string() + "/input_images/";
+    std::string out_path = cwd.parent_path().string() + "/output_images/";
 
-  FolderReader reader(dir_path, PhotoExtension::jpg);
-  DistantRoadRecognitionTwinLiteNet marker;
-  DistantRoadRecognitionManager manager(
-      static_cast<Reader &>(reader),
-      static_cast<DistantRoadRecognition &>(marker));
-  manager.Process();
+    if (!std::filesystem::exists(in_path)) {
+      throw std::runtime_error("Input directory does not exist: " + in_path);
+    }
+
+    if (!std::filesystem::exists(out_path)) {
+      std::filesystem::create_directories(out_path);
+    }
+
+    FolderReader reader(in_path, PhotoExtension::jpg);
+    FolderWriter writer(out_path, PhotoExtension::jpg);
+    DistantRoadRecognitionTwinLiteNet marker;
+    DistantRoadRecognitionManager manager(
+        static_cast<Reader &>(reader),
+        static_cast<DistantRoadRecognition &>(marker),
+        static_cast<Writer &>(writer));
+
+    manager.Process();
+    std::cout << "Processing completed successfully." << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Error: " << e.what() << std::endl;
+    return 1;
+  }
+
   return 0;
 }

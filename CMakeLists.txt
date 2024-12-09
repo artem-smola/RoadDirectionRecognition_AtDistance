@@ -22,16 +22,23 @@ endif()
 find_package(OpenCV REQUIRED)
 
 set(HEADER_FILES
-TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp
-src/road_recognition/recognition.hpp src/road_recognition/reader.hpp src/road_recognition/manager.hpp src/road_recognition/metrics.hpp)
+    TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp
+    src/road_recognition/recognition.hpp
+    src/road_recognition/reader.hpp
+    src/road_recognition/writer.hpp
+    src/road_recognition/manager.hpp
+    src/road_recognition/metrics.hpp
+    src/image_upscale/upscale.hpp)
 
 set(SOURCE_FILES
     main.cpp
     TwinLiteNet-onnxruntime/src/twinlitenet_onnxruntime.cpp
     src/road_recognition/recognition.cpp
     src/road_recognition/reader.cpp
+    src/road_recognition/writer.cpp
     src/road_recognition/manager.cpp
     src/road_recognition/metrics.cpp
+    src/image_upscale/upscale.cpp
     )
 
 # general Includes

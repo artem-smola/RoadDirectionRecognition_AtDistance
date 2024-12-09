@@ -21,7 +21,7 @@ protected:
 
 class FolderReader : public Reader {
 public:
-  FolderReader(std::string folder_path, PhotoExtension photo_extension);
+  FolderReader(const std::string &folder_path, PhotoExtension photo_extension);
   ~FolderReader();
   cv::Mat Read();
   cv::Mat GetSample();
@@ -34,7 +34,7 @@ private:
 
 class VideoReader : public Reader {
 public:
-  VideoReader(std::string video_path);
+  VideoReader(const std::string &video_path);
   ~VideoReader();
   cv::Mat Read();
   cv::Mat GetSample();

@@ -177,6 +177,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/image_upscale/upscale.o: src/image_upscale/upscale.cpp.o
+.PHONY : src/image_upscale/upscale.o
+
+# target to build an object file
+src/image_upscale/upscale.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o
+.PHONY : src/image_upscale/upscale.cpp.o
+
+src/image_upscale/upscale.i: src/image_upscale/upscale.cpp.i
+.PHONY : src/image_upscale/upscale.i
+
+# target to preprocess a source file
+src/image_upscale/upscale.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/image_upscale/upscale.cpp.i
+.PHONY : src/image_upscale/upscale.cpp.i
+
+src/image_upscale/upscale.s: src/image_upscale/upscale.cpp.s
+.PHONY : src/image_upscale/upscale.s
+
+# target to generate assembly for a file
+src/image_upscale/upscale.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/image_upscale/upscale.cpp.s
+.PHONY : src/image_upscale/upscale.cpp.s
+
 src/road_recognition/manager.o: src/road_recognition/manager.cpp.o
 .PHONY : src/road_recognition/manager.o
 
@@ -273,6 +297,30 @@ src/road_recognition/recognition.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/recognition.cpp.s
 .PHONY : src/road_recognition/recognition.cpp.s
 
+src/road_recognition/writer.o: src/road_recognition/writer.cpp.o
+.PHONY : src/road_recognition/writer.o
+
+# target to build an object file
+src/road_recognition/writer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/writer.cpp.o
+.PHONY : src/road_recognition/writer.cpp.o
+
+src/road_recognition/writer.i: src/road_recognition/writer.cpp.i
+.PHONY : src/road_recognition/writer.i
+
+# target to preprocess a source file
+src/road_recognition/writer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/writer.cpp.i
+.PHONY : src/road_recognition/writer.cpp.i
+
+src/road_recognition/writer.s: src/road_recognition/writer.cpp.s
+.PHONY : src/road_recognition/writer.s
+
+# target to generate assembly for a file
+src/road_recognition/writer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/road_recognition/writer.cpp.s
+.PHONY : src/road_recognition/writer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -288,6 +336,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/image_upscale/upscale.o"
+	@echo "... src/image_upscale/upscale.i"
+	@echo "... src/image_upscale/upscale.s"
 	@echo "... src/road_recognition/manager.o"
 	@echo "... src/road_recognition/manager.i"
 	@echo "... src/road_recognition/manager.s"
@@ -300,6 +351,9 @@ help:
 	@echo "... src/road_recognition/recognition.o"
 	@echo "... src/road_recognition/recognition.i"
 	@echo "... src/road_recognition/recognition.s"
+	@echo "... src/road_recognition/writer.o"
+	@echo "... src/road_recognition/writer.i"
+	@echo "... src/road_recognition/writer.s"
 .PHONY : help
 
 

@@ -49,20 +49,14 @@ Points DistantRoadRecognitionTwinLiteNet::GetLanePixels(const cv::Mat &img) {
   return lane_pixels;
 }
 
-Points
-DistantRoadRecognitionTwinLiteNet::MarkLaneAtDistance(cv::Mat origin_img) {
-  cv::Mat marked_img = origin_img.clone();
-  marked_img = marked_img(roi_);
-  MarkLane(marked_img);
-  // if (out_path != "") {
-  //   cv::imwrite(out_path + "photo" + std::to_string(i) +
-  //                   kExtensionNames[static_cast<int>(photos_extension_)],
-  //               marked_img);
-  // }
+Points DistantRoadRecognitionTwinLiteNet::MarkLaneAtDistance(cv::Mat &img) {
+  cv::Mat origin_img = img.clone();
+  img = img(roi_);
+  MarkLane(img);
   cv::imshow("Origin road image", origin_img);
-  cv::imshow("Marked distant part of the road", marked_img);
-  cv::waitKey(1);
-  Points lane_pixels = GetLanePixels(marked_img);
+  cv::imshow("Marked distant part of the road", img);
+  cv::waitKey(30);
+  Points lane_pixels = GetLanePixels(img);
   return lane_pixels;
 }
 

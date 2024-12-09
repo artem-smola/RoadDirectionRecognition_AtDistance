@@ -125,10 +125,24 @@ CMakeFiles/main.dir/src/road_recognition/reader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/road_recognition/reader.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.cpp -o CMakeFiles/main.dir/src/road_recognition/reader.cpp.s
 
+CMakeFiles/main.dir/src/road_recognition/writer.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/road_recognition/writer.cpp.o: /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.cpp
+CMakeFiles/main.dir/src/road_recognition/writer.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/road_recognition/writer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/road_recognition/writer.cpp.o -MF CMakeFiles/main.dir/src/road_recognition/writer.cpp.o.d -o CMakeFiles/main.dir/src/road_recognition/writer.cpp.o -c /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.cpp
+
+CMakeFiles/main.dir/src/road_recognition/writer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/road_recognition/writer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.cpp > CMakeFiles/main.dir/src/road_recognition/writer.cpp.i
+
+CMakeFiles/main.dir/src/road_recognition/writer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/road_recognition/writer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.cpp -o CMakeFiles/main.dir/src/road_recognition/writer.cpp.s
+
 CMakeFiles/main.dir/src/road_recognition/manager.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/road_recognition/manager.cpp.o: /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.cpp
 CMakeFiles/main.dir/src/road_recognition/manager.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/road_recognition/manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/road_recognition/manager.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/road_recognition/manager.cpp.o -MF CMakeFiles/main.dir/src/road_recognition/manager.cpp.o.d -o CMakeFiles/main.dir/src/road_recognition/manager.cpp.o -c /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.cpp
 
 CMakeFiles/main.dir/src/road_recognition/manager.cpp.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/main.dir/src/road_recognition/manager.cpp.s: cmake_force
 CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o: /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.cpp
 CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o -MF CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o.d -o CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o -c /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.cpp
 
 CMakeFiles/main.dir/src/road_recognition/metrics.cpp.i: cmake_force
@@ -153,14 +167,30 @@ CMakeFiles/main.dir/src/road_recognition/metrics.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/road_recognition/metrics.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.cpp -o CMakeFiles/main.dir/src/road_recognition/metrics.cpp.s
 
+CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o: /home/artem/RoadDirectionRecognition_AtDistance/src/image_upscale/upscale.cpp
+CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o -MF CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o.d -o CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o -c /home/artem/RoadDirectionRecognition_AtDistance/src/image_upscale/upscale.cpp
+
+CMakeFiles/main.dir/src/image_upscale/upscale.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/image_upscale/upscale.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/artem/RoadDirectionRecognition_AtDistance/src/image_upscale/upscale.cpp > CMakeFiles/main.dir/src/image_upscale/upscale.cpp.i
+
+CMakeFiles/main.dir/src/image_upscale/upscale.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/image_upscale/upscale.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/artem/RoadDirectionRecognition_AtDistance/src/image_upscale/upscale.cpp -o CMakeFiles/main.dir/src/image_upscale/upscale.cpp.s
+
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cpp.o" \
 "CMakeFiles/main.dir/TwinLiteNet-onnxruntime/src/twinlitenet_onnxruntime.cpp.o" \
 "CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o" \
 "CMakeFiles/main.dir/src/road_recognition/reader.cpp.o" \
+"CMakeFiles/main.dir/src/road_recognition/writer.cpp.o" \
 "CMakeFiles/main.dir/src/road_recognition/manager.cpp.o" \
-"CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o"
+"CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o" \
+"CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
@@ -169,8 +199,10 @@ main: CMakeFiles/main.dir/main.cpp.o
 main: CMakeFiles/main.dir/TwinLiteNet-onnxruntime/src/twinlitenet_onnxruntime.cpp.o
 main: CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o
 main: CMakeFiles/main.dir/src/road_recognition/reader.cpp.o
+main: CMakeFiles/main.dir/src/road_recognition/writer.cpp.o
 main: CMakeFiles/main.dir/src/road_recognition/manager.cpp.o
 main: CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o
+main: CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: /usr/local/lib/libopencv_gapi.so.4.10.0
 main: /usr/local/lib/libopencv_stitching.so.4.10.0
@@ -229,7 +261,7 @@ main: /usr/local/lib/libopencv_photo.so.4.10.0
 main: /usr/local/lib/libopencv_imgproc.so.4.10.0
 main: /usr/local/lib/libopencv_core.so.4.10.0
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

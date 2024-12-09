@@ -10,10 +10,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/src/twinlitenet_onnxruntime.cpp" "CMakeFiles/main.dir/TwinLiteNet-onnxruntime/src/twinlitenet_onnxruntime.cpp.o" "gcc" "CMakeFiles/main.dir/TwinLiteNet-onnxruntime/src/twinlitenet_onnxruntime.cpp.o.d"
   "/home/artem/RoadDirectionRecognition_AtDistance/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
+  "/home/artem/RoadDirectionRecognition_AtDistance/src/image_upscale/upscale.cpp" "CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o" "gcc" "CMakeFiles/main.dir/src/image_upscale/upscale.cpp.o.d"
   "/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.cpp" "CMakeFiles/main.dir/src/road_recognition/manager.cpp.o" "gcc" "CMakeFiles/main.dir/src/road_recognition/manager.cpp.o.d"
   "/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.cpp" "CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o" "gcc" "CMakeFiles/main.dir/src/road_recognition/metrics.cpp.o.d"
   "/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.cpp" "CMakeFiles/main.dir/src/road_recognition/reader.cpp.o" "gcc" "CMakeFiles/main.dir/src/road_recognition/reader.cpp.o.d"
   "/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.cpp" "CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o" "gcc" "CMakeFiles/main.dir/src/road_recognition/recognition.cpp.o.d"
+  "/home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.cpp" "CMakeFiles/main.dir/src/road_recognition/writer.cpp.o" "gcc" "CMakeFiles/main.dir/src/road_recognition/writer.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

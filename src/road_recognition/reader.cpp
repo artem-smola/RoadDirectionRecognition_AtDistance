@@ -2,7 +2,7 @@
 
 size_t Reader::GetSize() { return size_; }
 
-FolderReader::FolderReader(std::string folder_path,
+FolderReader::FolderReader(const std::string &folder_path,
                            PhotoExtension photo_extension)
     : photo_extension_(photo_extension), current_index_(0) {
   cv::glob(folder_path + "*" +
@@ -16,15 +16,14 @@ FolderReader::~FolderReader() { photos_paths_.clear(); }
 
 cv::Mat FolderReader::Read() {
   if (current_index_ < size_) {
-    current_index_++;
-    return cv::imread(photos_paths_[current_index_]);
+    return cv::imread(photos_paths_[current_index_++]);
   }
   return cv::Mat();
 }
 
 cv::Mat FolderReader::GetSample() { return sample_; }
 
-VideoReader::VideoReader(std::string video_path) {
+VideoReader::VideoReader(const std::string &video_path) {
   video_capture_.open(video_path);
   size_ = video_capture_.get(cv::CAP_PROP_FRAME_COUNT);
   video_capture_ >> sample_;

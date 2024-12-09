@@ -15,7 +15,7 @@ using Points = std::vector<cv::Point>;
 
 class DistantRoadRecognition {
 public:
-  virtual Points MarkLaneAtDistance(cv::Mat img) = 0;
+  virtual Points MarkLaneAtDistance(cv::Mat &img) = 0;
   virtual ~DistantRoadRecognition() {}
   virtual void SetRoi(cv::Mat img) = 0;
 
@@ -34,7 +34,7 @@ public:
   DistantRoadRecognitionTwinLiteNet();
   ~DistantRoadRecognitionTwinLiteNet();
 
-  Points MarkLaneAtDistance(cv::Mat);
+  Points MarkLaneAtDistance(cv::Mat &img);
   void SetRoi(cv::Mat img);
 
 private:
