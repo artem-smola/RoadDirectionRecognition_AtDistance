@@ -1,3 +1,0 @@
-/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles/main.dir
-/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles/edit_cache.dir
-/home/artem/RoadDirectionRecognition_AtDistance/build/CMakeFiles/rebuild_cache.dir
