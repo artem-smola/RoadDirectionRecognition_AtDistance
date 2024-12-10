@@ -17,29 +17,35 @@ class DistantRoadRecognition {
 public:
   virtual Points MarkLaneAtDistance(cv::Mat &img) = 0;
   virtual ~DistantRoadRecognition() {}
-  virtual void SetRoi(cv::Mat img) = 0;
+  virtual void SetRoi(const cv::Mat &img) = 0;
 
 protected:
   DistantRoadRecognition();
-  cv::Rect roi_;
-
-private:
   virtual void MarkLane(cv::Mat &img) = 0;
-
   virtual Points GetLanePixels(const cv::Mat &img) = 0;
+  cv::Rect roi_;
 };
 
 class DistantRoadRecognitionTwinLiteNet : public DistantRoadRecognition {
 public:
   DistantRoadRecognitionTwinLiteNet();
-  ~DistantRoadRecognitionTwinLiteNet();
+  virtual ~DistantRoadRecognitionTwinLiteNet();
+  Points MarkLaneAtDistance(cv::Mat &img) override;
+  void SetRoi(const cv::Mat &img) override;
 
-  Points MarkLaneAtDistance(cv::Mat &img);
-  void SetRoi(cv::Mat img);
+protected:
+  void MarkLane(cv::Mat &img) override;
+  Points GetLanePixels(const cv::Mat &img) override;
+};
+
+class DistantRoadRecognitionTwinLiteNetUpscale
+    : public DistantRoadRecognitionTwinLiteNet {
+public:
+  DistantRoadRecognitionTwinLiteNetUpscale();
+  Points MarkLaneAtDistance(cv::Mat &img) override;
 
 private:
-  void MarkLane(cv::Mat &img);
-  Points GetLanePixels(const cv::Mat &img);
+  void Upscale(cv::Mat &img);
 };
 
 bool IsBlackPixel(cv::Vec3b pixel);

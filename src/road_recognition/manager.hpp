@@ -8,27 +8,38 @@
 class Manager {
 public:
   virtual ~Manager() {}
-  Manager() {}
   virtual void Process() = 0;
+
+protected:
+  Manager(Reader &reader, Writer &writer);
+  Reader &reader_;
+  Writer &writer_;
 };
 
 class DistantRoadRecognitionManager : public Manager {
 public:
-  DistantRoadRecognitionManager(Reader &reader, DistantRoadRecognition &marker,
-                                Writer &writer);
+  DistantRoadRecognitionManager(Reader &reader, Writer &writer,
+                                DistantRoadRecognition &marker);
   ~DistantRoadRecognitionManager();
 
   void Process();
   std::vector<Points> GetPixelsVectors();
 
 private:
-  Reader &reader_;
   DistantRoadRecognition &marker_;
-  Writer &writer_;
   std::vector<Points> pixels_vectors_;
 };
 
-class MetricsManager : public Manager {
+class UpscaleManager : public Manager {
+public:
+  UpscaleManager(Reader &reader, Writer &writer, Upscale &improver);
+  void Process();
+
+private:
+  Upscale &improver_;
+};
+
+class MetricsManager {
 public:
   MetricsManager(Reader &marking_res_reader, Reader &ground_truth_reader,
                  MetricsEvaluator &evaluator);
@@ -44,13 +55,12 @@ private:
   double res_accuracy_;
 };
 
-class UpscaleManager : public Manager {
+class RoiManager : public Manager {
 public:
-  UpscaleManager(Reader &reader, Upscale &improver, Writer &writer);
-  void Process();
+  RoiManager(Reader &reader, Writer &writer);
+  void Process() override;
 
 private:
-  Reader &reader_;
-  Upscale &improver_;
-  Writer &writer_;
+  void SetRoi(const cv::Mat &sample);
+  cv::Rect roi_;
 };

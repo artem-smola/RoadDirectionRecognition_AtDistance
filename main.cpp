@@ -19,9 +19,8 @@ int main() {
     FolderWriter writer(out_path, PhotoExtension::jpg);
     DistantRoadRecognitionTwinLiteNet marker;
     DistantRoadRecognitionManager manager(
-        static_cast<Reader &>(reader),
-        static_cast<DistantRoadRecognition &>(marker),
-        static_cast<Writer &>(writer));
+        static_cast<Reader &>(reader), static_cast<Writer &>(writer),
+        static_cast<DistantRoadRecognition &>(marker));
 
     manager.Process();
     std::cout << "Processing completed successfully." << std::endl;

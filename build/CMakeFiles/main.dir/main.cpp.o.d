@@ -2,8 +2,7 @@ CMakeFiles/main.dir/main.cpp.o: \
  /home/artem/RoadDirectionRecognition_AtDistance/main.cpp \
  /usr/include/stdc-predef.h \
  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/manager.hpp \
- /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp \
- /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.hpp \
+ /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/../image_upscale/upscale.hpp \
  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/enums.hpp \
  /usr/include/c++/13/array /usr/include/c++/13/compare \
  /usr/include/c++/13/initializer_list \
@@ -284,7 +283,8 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/local/include/opencv4/opencv2/videoio.hpp \
  /usr/local/include/opencv4/opencv2/imgproc.hpp \
  /usr/local/include/opencv4/opencv2/imgproc/segmentation.hpp \
- /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.hpp \
+ /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/metrics.hpp \
+ /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/reader.hpp \
  /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/recognition.hpp \
  /home/artem/RoadDirectionRecognition_AtDistance/TwinLiteNet-onnxruntime/include/twinlitenet_onnxruntime.hpp \
  /home/artem/onnxruntime-linux-x64-1.20.0/include/onnxruntime_cxx_api.h \
@@ -383,7 +383,7 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/local/include/opencv4/opencv2/video.hpp \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
- /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/../image_upscale/upscale.hpp \
+ /home/artem/RoadDirectionRecognition_AtDistance/src/road_recognition/writer.hpp \
  /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
  /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/codecvt \
  /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h

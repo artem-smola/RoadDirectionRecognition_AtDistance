@@ -10,7 +10,6 @@ include_directories(${ONNXRUNTIME_ROOTDIR}/include)
 
 link_directories(${ONNXRUNTIME_ROOTDIR}/lib)
 
-
 # Options
 option(ENABLE_CUDA "Enable CUDA" OFF)
 

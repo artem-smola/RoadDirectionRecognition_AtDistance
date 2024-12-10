@@ -7,7 +7,7 @@ DistantRoadRecognitionTwinLiteNet::DistantRoadRecognitionTwinLiteNet()
 
 DistantRoadRecognitionTwinLiteNet::~DistantRoadRecognitionTwinLiteNet() {}
 
-void DistantRoadRecognitionTwinLiteNet::SetRoi(cv::Mat img) {
+void DistantRoadRecognitionTwinLiteNet::SetRoi(const cv::Mat &img) {
   cv::Rect roi;
   roi.x = (img.size().width * 7) / 18;
   roi.y = (img.size().height * 5) / 9;
@@ -27,7 +27,7 @@ void DistantRoadRecognitionTwinLiteNet::SetRoi(cv::Mat img) {
 
 void DistantRoadRecognitionTwinLiteNet::MarkLane(cv::Mat &img) {
   if (img.size().width != kRoiWidth || img.size().height != kRoiHeight) {
-    resize(img, img, cv::Size(kRoiWidth, kRoiHeight));
+    cv::resize(img, img, cv::Size(kRoiWidth, kRoiHeight));
   }
   TwinLiteNet twin_lite_net("../../TwinLiteNet-onnxruntime/models/best.onnx");
   cv::Mat da_out, ll_out;
@@ -62,4 +62,31 @@ Points DistantRoadRecognitionTwinLiteNet::MarkLaneAtDistance(cv::Mat &img) {
 
 bool IsBlackPixel(cv::Vec3b pixel) {
   return (pixel[0] == 0 && pixel[1] == 0 && pixel[2] == 0);
+}
+
+DistantRoadRecognitionTwinLiteNetUpscale::
+    DistantRoadRecognitionTwinLiteNetUpscale()
+    : DistantRoadRecognitionTwinLiteNet() {}
+
+void DistantRoadRecognitionTwinLiteNetUpscale::Upscale(cv::Mat &img) {
+  std::string path = "../models/ESPCN_x4.pb";
+  std::string model_name = "espcn";
+  int scale = 4;
+  cv::dnn_superres::DnnSuperResImpl sr;
+  sr.readModel(path);
+  sr.setModel(model_name, scale);
+  sr.upsample(img, img);
+}
+
+Points
+DistantRoadRecognitionTwinLiteNetUpscale::MarkLaneAtDistance(cv::Mat &img) {
+  cv::Mat origin_img = img.clone();
+  img = img(roi_);
+  Upscale(img);
+  MarkLane(img);
+  cv::imshow("Origin road image", origin_img);
+  cv::imshow("Marked distant part of the road", img);
+  cv::waitKey(30);
+  Points lane_pixels = GetLanePixels(img);
+  return lane_pixels;
 }
