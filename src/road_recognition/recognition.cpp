@@ -3,7 +3,7 @@
 DistantRoadRecognition::DistantRoadRecognition() : roi_() {}
 
 DistantRoadRecognitionTwinLiteNet::DistantRoadRecognitionTwinLiteNet()
-    : DistantRoadRecognition() {}
+    : DistantRoadRecognition(), model_("../../TwinLiteNet-onnxruntime/models/best.onnx") {}
 
 DistantRoadRecognitionTwinLiteNet::~DistantRoadRecognitionTwinLiteNet() {}
 
@@ -29,9 +29,8 @@ void DistantRoadRecognitionTwinLiteNet::MarkLane(cv::Mat &img) {
   if (img.size().width != kRoiWidth || img.size().height != kRoiHeight) {
     cv::resize(img, img, cv::Size(kRoiWidth, kRoiHeight));
   }
-  TwinLiteNet twin_lite_net("../../TwinLiteNet-onnxruntime/models/best.onnx");
   cv::Mat da_out, ll_out;
-  twin_lite_net.Infer(img, da_out, ll_out);
+  model_.Infer(img, da_out, ll_out);
   img.setTo(cv::Scalar(0, 0, 0));
   img.setTo(cv::Scalar(180, 130, 70), ll_out);
 }

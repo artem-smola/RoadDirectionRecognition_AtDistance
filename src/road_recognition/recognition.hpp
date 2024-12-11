@@ -34,6 +34,7 @@ public:
   void SetRoi(const cv::Mat &img) override;
 
 protected:
+  TwinLiteNet model_;
   void MarkLane(cv::Mat &img) override;
   Points GetLanePixels(const cv::Mat &img) override;
 };
