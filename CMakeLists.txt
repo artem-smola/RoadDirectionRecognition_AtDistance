@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(RoadRecognition)
 
 
-set(ONNXRUNTIME_ROOTDIR "/home/artem/onnxruntime-linux-x64-1.20.0")  # Замените на ваш путь
+set(ONNXRUNTIME_ROOTDIR "/home/artem/onnxruntime-linux-x64-1.20.0")  # Replace with your path to onnx_runtime
 
 include_directories(${ONNXRUNTIME_ROOTDIR}/include)
 
