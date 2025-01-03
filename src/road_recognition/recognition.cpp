@@ -3,7 +3,8 @@
 DistantRoadRecognition::DistantRoadRecognition() : roi_() {}
 
 DistantRoadRecognitionTwinLiteNet::DistantRoadRecognitionTwinLiteNet()
-    : DistantRoadRecognition(), model_("../../TwinLiteNet-onnxruntime/models/best.onnx") {}
+    : DistantRoadRecognition(),
+      model_("../../TwinLiteNet-onnxruntime/models/best.onnx") {}
 
 DistantRoadRecognitionTwinLiteNet::~DistantRoadRecognitionTwinLiteNet() {}
 

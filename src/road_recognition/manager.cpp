@@ -27,21 +27,87 @@ std::vector<Points> DistantRoadRecognitionManager::GetPixelsVectors() {
 }
 
 MetricsManager::MetricsManager(Reader &marking_res_reader,
-                               Reader &ground_truth_reader,
-                               MetricsEvaluator &evaluator)
+                               Reader &ground_truth_reader)
     : marking_res_reader_(marking_res_reader),
-      ground_truth_reader_(ground_truth_reader), evaluator_(evaluator),
+      ground_truth_reader_(ground_truth_reader),
       res_IoU_(kInitIncorrectMetricValue),
       res_accuracy_(kInitIncorrectMetricValue) {}
+
+double MetricsManager::EvaluateIoU(const cv::Mat &marking_res,
+                                   const cv::Mat &ground_truth) {
+  if (marking_res.rows != kRoiHeight || ground_truth.rows != kRoiHeight ||
+      marking_res.cols != kRoiWidth || ground_truth.cols != kRoiWidth) {
+    throw std::invalid_argument("Error: Incorrect image size");
+  }
+  int num_of_intersection = 0;
+  int num_of_union = 0;
+  for (int y = 0; y < marking_res.rows; y++) {
+    for (int x = 0; x < marking_res.cols; x++) {
+      bool is_marking_res_pixel_black =
+          IsBlackPixel(marking_res.at<cv::Vec3b>(y, x));
+      bool is_ground_truth_pixel_black =
+          IsBlackPixel(ground_truth.at<cv::Vec3b>(y, x));
+      if (!is_marking_res_pixel_black || !is_ground_truth_pixel_black) {
+        num_of_union++;
+      }
+      if (!is_marking_res_pixel_black && !is_ground_truth_pixel_black) {
+        num_of_intersection++;
+      }
+    }
+  }
+  if (num_of_union == 0) {
+    return 1;
+  }
+  return static_cast<double>(num_of_intersection) /
+         static_cast<double>(num_of_union);
+}
+
+double MetricsManager::EvaluateAccuracy(const cv::Mat &marking_res,
+                                        const cv::Mat &ground_truth) {
+  if (marking_res.rows != kRoiHeight || ground_truth.rows != kRoiHeight ||
+      marking_res.cols != kRoiWidth || ground_truth.cols != kRoiWidth) {
+    throw std::invalid_argument("Error: Incorrect image size");
+  }
+  int num_true_positive = 0;
+  int num_true_negative = 0;
+  int num_false_positive = 0;
+  int num_false_negative = 0;
+  for (int y = 0; y < marking_res.rows; y++) {
+    for (int x = 0; x < marking_res.cols; x++) {
+      bool is_marking_res_pixel_black =
+          IsBlackPixel(marking_res.at<cv::Vec3b>(y, x));
+      bool is_ground_truth_pixel_black =
+          IsBlackPixel(ground_truth.at<cv::Vec3b>(y, x));
+      if (is_marking_res_pixel_black) {
+        if (is_ground_truth_pixel_black) {
+          num_true_negative++;
+        } else {
+          num_false_negative++;
+        }
+      } else {
+        if (!is_ground_truth_pixel_black) {
+          num_true_positive++;
+        } else {
+          num_false_positive++;
+        }
+      }
+    }
+  }
+  return static_cast<double>(num_true_positive + num_true_negative) /
+         static_cast<double>(num_true_positive + num_true_negative +
+                             num_false_positive + num_false_negative);
+}
 
 void MetricsManager::Process() {
   double sum_IoU = 0;
   double sum_accuracy = 0;
   for (size_t i = 0; i < marking_res_reader_.GetSize(); i++) {
-    sum_IoU += evaluator_.GetIoU(marking_res_reader_.Read(),
-                                 ground_truth_reader_.Read());
-    sum_accuracy += evaluator_.GetAccuracy(marking_res_reader_.Read(),
-                                           ground_truth_reader_.Read());
+    auto marking_res = marking_res_reader_.Read();
+    auto ground_truth = ground_truth_reader_.Read();
+    sum_IoU +=
+        EvaluateIoU(marking_res, ground_truth);
+    sum_accuracy += EvaluateAccuracy(marking_res,
+                                     ground_truth);
   }
   res_IoU_ = sum_IoU / static_cast<double>(marking_res_reader_.GetSize());
   res_accuracy_ =

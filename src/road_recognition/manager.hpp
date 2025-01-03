@@ -1,9 +1,10 @@
 #pragma once
 #include "../image_upscale/upscale.hpp"
-#include "metrics.hpp"
 #include "reader.hpp"
 #include "recognition.hpp"
 #include "writer.hpp"
+
+const double kInitIncorrectMetricValue = -1.0;
 
 class Manager {
 public:
@@ -41,16 +42,17 @@ private:
 
 class MetricsManager {
 public:
-  MetricsManager(Reader &marking_res_reader, Reader &ground_truth_reader,
-                 MetricsEvaluator &evaluator);
+  MetricsManager(Reader &marking_res_reader, Reader &ground_truth_reader);
   void Process();
   double GetIoU();
   double GetAccuracy();
 
 private:
+  double EvaluateIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
+  double EvaluateAccuracy(const cv::Mat &marking_res,
+                          const cv::Mat &ground_truth);
   Reader &marking_res_reader_;
   Reader &ground_truth_reader_;
-  MetricsEvaluator evaluator_;
   double res_IoU_;
   double res_accuracy_;
 };
