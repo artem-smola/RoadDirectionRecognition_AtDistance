@@ -104,10 +104,8 @@ void MetricsManager::Process() {
   for (size_t i = 0; i < marking_res_reader_.GetSize(); i++) {
     auto marking_res = marking_res_reader_.Read();
     auto ground_truth = ground_truth_reader_.Read();
-    sum_IoU +=
-        EvaluateIoU(marking_res, ground_truth);
-    sum_accuracy += EvaluateAccuracy(marking_res,
-                                     ground_truth);
+    sum_IoU += EvaluateIoU(marking_res, ground_truth);
+    sum_accuracy += EvaluateAccuracy(marking_res, ground_truth);
   }
   res_IoU_ = sum_IoU / static_cast<double>(marking_res_reader_.GetSize());
   res_accuracy_ =

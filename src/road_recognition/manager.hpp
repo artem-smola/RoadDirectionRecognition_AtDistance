@@ -23,7 +23,7 @@ public:
                                 DistantRoadRecognition &marker);
   ~DistantRoadRecognitionManager();
 
-  void Process();
+  void Process() override;
   std::vector<Points> GetPixelsVectors();
 
 private:
@@ -34,7 +34,7 @@ private:
 class UpscaleManager : public Manager {
 public:
   UpscaleManager(Reader &reader, Writer &writer, Upscale &improver);
-  void Process();
+  void Process() override;
 
 private:
   Upscale &improver_;

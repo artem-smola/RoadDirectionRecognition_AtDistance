@@ -23,8 +23,8 @@ class FolderReader : public Reader {
 public:
   FolderReader(const std::string &folder_path, PhotoExtension photo_extension);
   ~FolderReader();
-  cv::Mat Read();
-  cv::Mat GetSample();
+  cv::Mat Read() override;
+  cv::Mat GetSample() override;
 
 private:
   std::vector<cv::String> photos_paths_;
@@ -36,8 +36,8 @@ class VideoReader : public Reader {
 public:
   VideoReader(const std::string &video_path);
   ~VideoReader();
-  cv::Mat Read();
-  cv::Mat GetSample();
+  cv::Mat Read() override;
+  cv::Mat GetSample() override;
 
 private:
   cv::VideoCapture video_capture_;
