@@ -25,6 +25,7 @@ public:
   ~FolderReader();
   cv::Mat Read() override;
   cv::Mat GetSample() override;
+  size_t GetCurrentIndex();
 
 private:
   std::vector<cv::String> photos_paths_;

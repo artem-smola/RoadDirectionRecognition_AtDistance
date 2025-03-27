@@ -26,7 +26,9 @@ set(HEADER_FILES
     src/road_recognition/reader.hpp
     src/road_recognition/writer.hpp
     src/road_recognition/manager.hpp
-    src/image_upscale/upscale.hpp)
+    src/image_upscale/upscale.hpp
+    src/road_recognition/constant.hpp
+    src/road_recognition/flow_handler.hpp)
 
 set(SOURCE_FILES
     main.cpp
@@ -35,7 +37,8 @@ set(SOURCE_FILES
     src/road_recognition/reader.cpp
     src/road_recognition/writer.cpp
     src/road_recognition/manager.cpp
-    src/image_upscale/upscale.cpp)
+    src/image_upscale/upscale.cpp
+    src/road_recognition/flow_handler.cpp)
 
 # general Includes
 include_directories(

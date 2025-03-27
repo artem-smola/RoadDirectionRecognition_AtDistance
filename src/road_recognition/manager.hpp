@@ -1,10 +1,9 @@
 #pragma once
 #include "../image_upscale/upscale.hpp"
+#include "flow_handler.hpp"
 #include "reader.hpp"
 #include "recognition.hpp"
 #include "writer.hpp"
-
-const double kInitIncorrectMetricValue = -1.0;
 
 class Manager {
 public:
@@ -40,23 +39,6 @@ private:
   Upscale &improver_;
 };
 
-class MetricsManager {
-public:
-  MetricsManager(Reader &marking_res_reader, Reader &ground_truth_reader);
-  void Process();
-  double GetIoU();
-  double GetAccuracy();
-
-private:
-  double EvaluateIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
-  double EvaluateAccuracy(const cv::Mat &marking_res,
-                          const cv::Mat &ground_truth);
-  Reader &marking_res_reader_;
-  Reader &ground_truth_reader_;
-  double res_IoU_;
-  double res_accuracy_;
-};
-
 class RoiManager : public Manager {
 public:
   RoiManager(Reader &reader, Writer &writer);
@@ -65,4 +47,51 @@ public:
 private:
   void SetRoi(const cv::Mat &sample);
   cv::Rect roi_;
+};
+
+class FPSManagerDistantRoadRecognition {
+public:
+  FPSManagerDistantRoadRecognition(DistantRoadRecognition &marker,
+                                   const std::string &path_to_txt);
+  void Process();
+
+private:
+  DistantRoadRecognition &marker_;
+  std::string path_to_txt_;
+};
+
+class FPSManagerTwinLiteNet {
+public:
+  FPSManagerTwinLiteNet(const std::string &path_to_txt);
+  void Process();
+
+private:
+  std::string path_to_txt_;
+};
+
+class AutomatedRoiManagerDistantRoadRecognition {
+public:
+  AutomatedRoiManagerDistantRoadRecognition(DistantRoadRecognition &marker);
+  double Process();
+
+private:
+  DistantRoadRecognition &marker_;
+};
+
+class MetricsManager {
+public:
+  MetricsManager(std::string path_to_txt);
+  void Process();
+  double GetIoU();
+  double GetAccuracy();
+
+private:
+  double EvaluateIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
+  double EvaluateAccuracy(const cv::Mat &marking_res,
+                          const cv::Mat &ground_truth);
+  void PrintHistogram(const std::vector<double> &data, int num_bins);
+
+  std::string path_to_txt_;
+  double res_IoU_;
+  double res_accuracy_;
 };

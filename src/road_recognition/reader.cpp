@@ -23,6 +23,8 @@ cv::Mat FolderReader::Read() {
 
 cv::Mat FolderReader::GetSample() { return sample_; }
 
+size_t FolderReader::GetCurrentIndex() { return current_index_; }
+
 VideoReader::VideoReader(const std::string &video_path) {
   video_capture_.open(video_path);
   size_ = video_capture_.get(cv::CAP_PROP_FRAME_COUNT);
