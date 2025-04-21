@@ -6,34 +6,32 @@
 Manager::Manager(Reader &reader, Writer &writer)
     : reader_(reader), writer_(writer) {}
 
-DistantRoadRecognitionManager::DistantRoadRecognitionManager(
-    Reader &reader, Writer &writer, DistantRoadRecognition &marker)
-    : Manager(reader, writer), marker_(marker) {
-  cv::Mat sample = reader_.GetSample();
-  marker_.SetRoi(sample);
-}
+ManagerDRR::ManagerDRR(Reader &reader, Writer &writer,
+                       DistantRoadRecognition &marker)
+    : Manager(reader, writer), marker_(marker),
+      handler_(reader, Constant::default_min_count,
+               Constant::default_min_variance) {}
 
-DistantRoadRecognitionManager::~DistantRoadRecognitionManager() {
-  pixels_vectors_.clear();
-}
-
-void DistantRoadRecognitionManager::Process() {
-  for (size_t i = 0; i < reader_.GetSize(); i++) {
-    cv::Mat img = reader_.Read();
-    Points lane_pixels = *(marker_.MarkLaneAtDistance(img));
-    writer_.Write(img);
+void ManagerDRR::Process() {
+  cv::Mat sample = handler_.GetSampleFrame();
+  cv::Rect ROI_rect = SetRoiRect(sample);
+  handler_.SetRoi(ROI_rect);
+  do {
+    cv::Mat img = handler_.GetCurrentFrame();
+    ROI_rect = handler_.GetRoi();
+    cv::Mat ROI_img = img(ROI_rect);
+    Points lane_pixels = *(marker_.MarkLaneAtDistance(ROI_img));
+    writer_.Write(ROI_img);
     pixels_vectors_.push_back(lane_pixels);
-  }
-}
-std::vector<Points> DistantRoadRecognitionManager::GetPixelsVectors() {
-  return pixels_vectors_;
+
+  } while (handler_.Next());
 }
 
-UpscaleManager::UpscaleManager(Reader &reader, Writer &writer,
+ManagerUpscale::ManagerUpscale(Reader &reader, Writer &writer,
                                Upscale &improver)
     : Manager(reader, writer), improver_(improver) {}
 
-void UpscaleManager::Process() {
+void ManagerUpscale::Process() {
   for (size_t i = 0; i < reader_.GetSize(); i++) {
     cv::Mat img = reader_.Read();
     improver_.Execute(img);
@@ -41,46 +39,11 @@ void UpscaleManager::Process() {
   }
 }
 
-RoiManager::RoiManager(Reader &reader, Writer &writer)
-    : Manager(reader, writer), roi_() {}
-
-void RoiManager::SetRoi(const cv::Mat &img) {
-  cv::Rect roi;
-  roi.x = (img.size().width * 7) / 18;
-  roi.y = (img.size().height * 5) / 9;
-  int remain_width = img.size().width - roi.x;
-  int remain_height = img.size().height - roi.y;
-  int correction = 1;
-  if (remain_width < Constant::default_ROI_width ||
-      remain_height < Constant::default_ROI_height) {
-    int correction_width =
-        (Constant::default_ROI_width + remain_width - 1) / remain_width;
-    int correction_height =
-        (Constant::default_ROI_height + remain_height - 1) / remain_height;
-    correction = (correction_width > correction_height) ? correction_width
-                                                        : correction_height;
-  }
-  roi.width = Constant::default_ROI_width / correction;
-  roi.height = Constant::default_ROI_height / correction;
-  roi_ = roi;
-}
-
-void RoiManager::Process() {
-  if (roi_.empty()) {
-    SetRoi(reader_.GetSample());
-  }
-  for (size_t i = 0; i < reader_.GetSize(); i++) {
-    cv::Mat img = reader_.Read();
-    img = img(roi_);
-    writer_.Write(img);
-  }
-}
-
-FPSManagerDistantRoadRecognition::FPSManagerDistantRoadRecognition(
-    DistantRoadRecognition &marker, const std::string &path_to_txt)
+FPSManagerDRR::FPSManagerDRR(DistantRoadRecognition &marker,
+                             const std::string &path_to_txt)
     : marker_(marker), path_to_txt_(path_to_txt) {}
 
-void FPSManagerDistantRoadRecognition::Process() {
+void FPSManagerDRR::Process() {
   std::ofstream file(path_to_txt_);
   file << "FPS:";
   double fps_sum = 0;
@@ -120,7 +83,8 @@ void FPSManagerDistantRoadRecognition::Process() {
     std::string out_path_gt =
         "/home/artem/practice_4_sem/gt_images_DRR_Upscale/Record" + str +
         "/Camera 5/";
-    FlowHandler handler(in_path_marked, PhotoExtension::jpg, 15, 4);
+    FolderReader in_path_marked_reader(in_path_marked, PhotoExtension::jpg);
+    FlowHandler handler(in_path_marked_reader, 15, 4);
     FolderReader reader_gt(in_path_gt, PhotoExtension::png);
     cv::Mat img_gt = reader_gt.Read();
     FolderWriter writer_marked(out_path_marked, PhotoExtension::jpg);
@@ -350,10 +314,10 @@ void MetricsManager::PrintHistogram(const std::vector<double> &data,
   }
 }
 
-FPSManagerTwinLiteNet::FPSManagerTwinLiteNet(const std::string &path_to_txt)
+FPSManagerTLN::FPSManagerTLN(const std::string &path_to_txt)
     : path_to_txt_(path_to_txt) {}
 
-void FPSManagerTwinLiteNet::Process() {
+void FPSManagerTLN::Process() {
   std::ofstream file(path_to_txt_);
   file << "FPS:";
   double fps_sum = 0;
@@ -395,7 +359,8 @@ void FPSManagerTwinLiteNet::Process() {
         "/Camera 5/";
     std::string out_path_gt =
         "/home/artem/practice_4_sem/gt_images_TLN/Record" + str + "/Camera 5/";
-    FlowHandler handler(in_path_marked, PhotoExtension::jpg, 15, 4);
+    FolderReader in_path_marked_reader(in_path_marked, PhotoExtension::jpg);
+    FlowHandler handler(in_path_marked_reader, 15, 4);
     FolderReader reader_gt(in_path_gt, PhotoExtension::png);
     cv::Mat img_gt = reader_gt.Read();
     FolderWriter writer_marked(out_path_marked, PhotoExtension::jpg);
@@ -445,55 +410,4 @@ void FPSManagerTwinLiteNet::Process() {
     file << "No images processed." << std::endl;
   }
   file.close();
-}
-
-AutomatedRoiManagerDistantRoadRecognition::
-    AutomatedRoiManagerDistantRoadRecognition(DistantRoadRecognition &marker)
-    : marker_(marker) {}
-
-double AutomatedRoiManagerDistantRoadRecognition::Process() {
-  std::vector<std::string> st_nums;
-  for (int i = 1; i <= 7; i++) {
-    std::string st_num = "";
-    st_num += '0' + (i / 100);
-    st_num += '0' + ((i % 100) / 10);
-    st_num += '0' + (i % 10);
-    st_nums.push_back(st_num);
-  }
-  for (int i = 15; i <= 48; i++) {
-    if (i == 17 || i == 32) {
-      continue;
-    }
-    std::string st_num = "";
-    st_num += '0' + (i / 100);
-    st_num += '0' + ((i % 100) / 10);
-    st_num += '0' + (i % 10);
-    st_nums.push_back(st_num);
-  }
-  std::string init_path = "/home/artem/Загрузки/ColorImage_road02/ColorImage/"
-                          "Record001/Camera 5/170927_063811892_Camera_5.jpg";
-  cv::Mat init_image = cv::imread(init_path);
-  cv::Rect ROI = SetRoiRect(init_image);
-  size_t num_of_images = 0;
-  auto start = std::chrono::high_resolution_clock::now();
-  for (std::string str : st_nums) {
-    std::string in_path_marked =
-        "/home/artem/Загрузки/ColorImage_road02/ColorImage/Record" + str +
-        "/Camera 5/";
-    FlowHandler handler(in_path_marked, PhotoExtension::jpg, 15, 4);
-    handler.SetRoi(ROI);
-    num_of_images += handler.GetSize();
-    do {
-      cv::Mat img = handler.GetCurrentFrame();
-      cv::Rect ROI_rect = handler.GetRoi();
-      cv::Mat ROI_img_marked = img(ROI_rect);
-      marker_.MarkLaneAtDistance(ROI_img_marked);
-    } while (handler.Next());
-  }
-  auto end = std::chrono::high_resolution_clock::now();
-  auto duration =
-      std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-  double fps = 1000.0 * static_cast<double>(num_of_images) /
-               static_cast<double>(duration.count());
-  return fps;
 }

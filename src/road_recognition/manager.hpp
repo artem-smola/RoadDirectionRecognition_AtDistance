@@ -16,43 +16,30 @@ protected:
   Writer &writer_;
 };
 
-class DistantRoadRecognitionManager : public Manager {
+class ManagerUpscale : public Manager {
 public:
-  DistantRoadRecognitionManager(Reader &reader, Writer &writer,
-                                DistantRoadRecognition &marker);
-  ~DistantRoadRecognitionManager();
-
-  void Process() override;
-  std::vector<Points> GetPixelsVectors();
-
-private:
-  DistantRoadRecognition &marker_;
-  std::vector<Points> pixels_vectors_;
-};
-
-class UpscaleManager : public Manager {
-public:
-  UpscaleManager(Reader &reader, Writer &writer, Upscale &improver);
+  ManagerUpscale(Reader &reader, Writer &writer, Upscale &improver);
   void Process() override;
 
 private:
   Upscale &improver_;
 };
 
-class RoiManager : public Manager {
+class ManagerDRR : public Manager {
 public:
-  RoiManager(Reader &reader, Writer &writer);
+  ManagerDRR(Reader &reader, Writer &writer, DistantRoadRecognition &marker);
   void Process() override;
+  std::vector<Points> GetPixelsVectors();
 
 private:
-  void SetRoi(const cv::Mat &sample);
-  cv::Rect roi_;
+  DistantRoadRecognition &marker_;
+  FlowHandler handler_;
+  std::vector<Points> pixels_vectors_;
 };
 
-class FPSManagerDistantRoadRecognition {
+class FPSManagerDRR {
 public:
-  FPSManagerDistantRoadRecognition(DistantRoadRecognition &marker,
-                                   const std::string &path_to_txt);
+  FPSManagerDRR(DistantRoadRecognition &marker, const std::string &path_to_txt);
   void Process();
 
 private:
@@ -60,22 +47,13 @@ private:
   std::string path_to_txt_;
 };
 
-class FPSManagerTwinLiteNet {
+class FPSManagerTLN {
 public:
-  FPSManagerTwinLiteNet(const std::string &path_to_txt);
+  FPSManagerTLN(const std::string &path_to_txt);
   void Process();
 
 private:
   std::string path_to_txt_;
-};
-
-class AutomatedRoiManagerDistantRoadRecognition {
-public:
-  AutomatedRoiManagerDistantRoadRecognition(DistantRoadRecognition &marker);
-  double Process();
-
-private:
-  DistantRoadRecognition &marker_;
 };
 
 class MetricsManager {

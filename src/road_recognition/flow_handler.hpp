@@ -4,9 +4,8 @@
 
 class FlowHandler {
 public:
-  FlowHandler(const std::string &dir, PhotoExtension extension,
-              size_t min_count, size_t min_variance);
-  void SetRoi();
+  FlowHandler(Reader &reader, const size_t &min_count,
+              const size_t &min_variance);
   void SetRoi(const cv::Rect &ROI);
   cv::Rect GetRoi();
   bool Next();
@@ -15,7 +14,7 @@ public:
   size_t GetSize();
 
 private:
-  FolderReader reader_;
+  Reader &reader_;
   cv::Scalar ROI_color_;
   cv::Rect ROI_;
   cv::Mat frame_;

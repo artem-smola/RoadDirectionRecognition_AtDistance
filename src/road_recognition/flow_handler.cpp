@@ -4,10 +4,10 @@
 #include <iostream>
 #include <vector>
 
-FlowHandler::FlowHandler(const std::string &dir_path, PhotoExtension extension,
-                         size_t min_count, size_t min_variance)
-    : reader_(dir_path, extension), ROI_color_(0, 0, 244),
-      min_count_(min_count), min_variance_(min_variance) {
+FlowHandler::FlowHandler(Reader &reader, const size_t &min_count,
+                         const size_t &min_variance)
+    : reader_(reader), ROI_color_(0, 0, 244), min_count_(min_count),
+      min_variance_(min_variance) {
   ROI_.x = Constant::default_ROI_x;
   ROI_.y = Constant::default_ROI_y;
   ROI_.width = Constant::default_ROI_width;

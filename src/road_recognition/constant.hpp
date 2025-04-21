@@ -17,4 +17,7 @@ constexpr double init_incorrect_metric_value = -1.0;
 
 constexpr size_t appolo_img_width = 3384;
 constexpr size_t appolo_img_height = 2710;
+
+constexpr size_t default_min_count = 15;
+constexpr size_t default_min_variance = 4;
 } // namespace Constant

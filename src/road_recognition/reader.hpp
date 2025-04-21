@@ -13,10 +13,12 @@ public:
   virtual cv::Mat Read() = 0;
   size_t GetSize();
   virtual cv::Mat GetSample() = 0;
+  size_t GetCurrentIndex();
 
 protected:
   size_t size_;
   cv::Mat sample_;
+  size_t current_index_;
 };
 
 class FolderReader : public Reader {
@@ -25,11 +27,9 @@ public:
   ~FolderReader();
   cv::Mat Read() override;
   cv::Mat GetSample() override;
-  size_t GetCurrentIndex();
 
 private:
   std::vector<cv::String> photos_paths_;
-  size_t current_index_;
   PhotoExtension photo_extension_;
 };
 
@@ -39,6 +39,7 @@ public:
   ~VideoReader();
   cv::Mat Read() override;
   cv::Mat GetSample() override;
+  size_t GetCurrentIndex();
 
 private:
   cv::VideoCapture video_capture_;
