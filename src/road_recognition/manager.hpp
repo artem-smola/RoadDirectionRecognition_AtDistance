@@ -1,10 +1,9 @@
 #pragma once
 #include "../image_upscale/upscale.hpp"
+#include "flow_handler.hpp"
 #include "reader.hpp"
 #include "recognition.hpp"
 #include "writer.hpp"
-
-const double kInitIncorrectMetricValue = -1.0;
 
 class Manager {
 public:
@@ -17,32 +16,49 @@ protected:
   Writer &writer_;
 };
 
-class DistantRoadRecognitionManager : public Manager {
+class ManagerUpscale : public Manager {
 public:
-  DistantRoadRecognitionManager(Reader &reader, Writer &writer,
-                                DistantRoadRecognition &marker);
-  ~DistantRoadRecognitionManager();
-
-  void Process() override;
-  std::vector<Points> GetPixelsVectors();
-
-private:
-  DistantRoadRecognition &marker_;
-  std::vector<Points> pixels_vectors_;
-};
-
-class UpscaleManager : public Manager {
-public:
-  UpscaleManager(Reader &reader, Writer &writer, Upscale &improver);
+  ManagerUpscale(Reader &reader, Writer &writer, Upscale &improver);
   void Process() override;
 
 private:
   Upscale &improver_;
 };
 
+class ManagerDRR : public Manager {
+public:
+  ManagerDRR(Reader &reader, Writer &writer, DistantRoadRecognition &marker);
+  void Process() override;
+  std::vector<Points> GetPixelsVectors();
+
+private:
+  DistantRoadRecognition &marker_;
+  FlowHandler handler_;
+  std::vector<Points> pixels_vectors_;
+};
+
+class FPSManagerDRR {
+public:
+  FPSManagerDRR(DistantRoadRecognition &marker, const std::string &path_to_txt);
+  void Process();
+
+private:
+  DistantRoadRecognition &marker_;
+  std::string path_to_txt_;
+};
+
+class FPSManagerTLN {
+public:
+  FPSManagerTLN(const std::string &path_to_txt);
+  void Process();
+
+private:
+  std::string path_to_txt_;
+};
+
 class MetricsManager {
 public:
-  MetricsManager(Reader &marking_res_reader, Reader &ground_truth_reader);
+  MetricsManager(std::string path_to_txt);
   void Process();
   double GetIoU();
   double GetAccuracy();
@@ -51,18 +67,9 @@ private:
   double EvaluateIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
   double EvaluateAccuracy(const cv::Mat &marking_res,
                           const cv::Mat &ground_truth);
-  Reader &marking_res_reader_;
-  Reader &ground_truth_reader_;
+  void PrintHistogram(const std::vector<double> &data, int num_bins);
+
+  std::string path_to_txt_;
   double res_IoU_;
   double res_accuracy_;
-};
-
-class RoiManager : public Manager {
-public:
-  RoiManager(Reader &reader, Writer &writer);
-  void Process() override;
-
-private:
-  void SetRoi(const cv::Mat &sample);
-  cv::Rect roi_;
 };
