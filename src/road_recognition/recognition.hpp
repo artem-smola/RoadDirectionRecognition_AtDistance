@@ -15,7 +15,6 @@ class DistantRoadRecognition {
 public:
   virtual PtrPoints MarkLaneAtDistance(cv::Mat &img) = 0;
   virtual ~DistantRoadRecognition() {}
-  virtual void SetRoi(const cv::Mat &img) = 0;
 
 protected:
   DistantRoadRecognition();
@@ -29,7 +28,6 @@ public:
   DistantRoadRecognitionTwinLiteNet();
   virtual ~DistantRoadRecognitionTwinLiteNet();
   PtrPoints MarkLaneAtDistance(cv::Mat &img) override;
-  void SetRoi(const cv::Mat &img) override;
 
 protected:
   TwinLiteNet model_;

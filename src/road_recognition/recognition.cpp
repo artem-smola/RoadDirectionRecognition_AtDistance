@@ -10,27 +10,6 @@ DistantRoadRecognitionTwinLiteNet::DistantRoadRecognitionTwinLiteNet()
 
 DistantRoadRecognitionTwinLiteNet::~DistantRoadRecognitionTwinLiteNet() {}
 
-void DistantRoadRecognitionTwinLiteNet::SetRoi(const cv::Mat &img) {
-  cv::Rect roi;
-  roi.x = (img.size().width * 7) / 18;
-  roi.y = (img.size().height * 5) / 9;
-  int remain_width = img.size().width - roi.x;
-  int remain_height = img.size().height - roi.y;
-  int correction = 1;
-  if (remain_width < Constant::default_ROI_width ||
-      remain_height < Constant::default_ROI_height) {
-    int correction_width =
-        (Constant::default_ROI_width + remain_width - 1) / remain_width;
-    int correction_height =
-        (Constant::default_ROI_height + remain_height - 1) / remain_height;
-    correction = (correction_width > correction_height) ? correction_width
-                                                        : correction_height;
-  }
-  roi.width = Constant::default_ROI_width / correction;
-  roi.height = Constant::default_ROI_height / correction;
-  roi_ = roi;
-}
-
 void DistantRoadRecognitionTwinLiteNet::MarkLane(cv::Mat &img) {
   if (img.size().width != Constant::default_ROI_width ||
       img.size().height != Constant::default_ROI_height) {
