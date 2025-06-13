@@ -78,7 +78,6 @@ class RoiManager {
 public:
   RoiManager(Reader &reader);
   void Process();
-
 private:
   Reader &reader_;
   FlowHandler handler_;
