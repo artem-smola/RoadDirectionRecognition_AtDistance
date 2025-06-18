@@ -152,7 +152,7 @@ void FPSManagerDRR::Process() {
 }
 
 MetricsManager::MetricsManager(std::string path_to_txt)
-    : path_to_txt_(path_to_txt){}
+    : path_to_txt_(path_to_txt) {}
 
 double MetricsManager::EvaluateIoU(const cv::Mat &marking_res,
                                    const cv::Mat &ground_truth) {
@@ -238,7 +238,8 @@ double MetricsManager::EvaluatePrecision(const cv::Mat &marking_res,
   for (int y = 0; y < marking_res.rows; y++) {
     for (int x = 0; x < marking_res.cols; x++) {
       bool is_marking_res_black = IsBlackPixel(marking_res.at<cv::Vec3b>(y, x));
-      bool is_ground_truth_black = IsBlackPixel(ground_truth.at<cv::Vec3b>(y, x));
+      bool is_ground_truth_black =
+          IsBlackPixel(ground_truth.at<cv::Vec3b>(y, x));
 
       if (!is_marking_res_black) {
         if (!is_ground_truth_black) {
@@ -254,7 +255,7 @@ double MetricsManager::EvaluatePrecision(const cv::Mat &marking_res,
     return 1.0;
   }
 
-  return static_cast<double>(true_positive) / 
+  return static_cast<double>(true_positive) /
          static_cast<double>(true_positive + false_positive);
 }
 

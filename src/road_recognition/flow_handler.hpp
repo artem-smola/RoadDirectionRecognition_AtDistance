@@ -31,6 +31,7 @@ private:
   size_t num_without_variance_ = 0;
 
   std::vector<cv::Point2f> points_;
+  double correction_ = 1;
 };
 double GetCompressionToFitRectOnScreen(cv::Size rect_size,
                                        cv::Size screen_size);
