@@ -14,11 +14,7 @@ ManagerDRR::ManagerDRR(Reader &reader, Writer &writer,
 
 void ManagerDRR::Process() {
   cv::Mat sample = handler_.GetSampleFrame();
-  cv::Rect ROI_rect;
-  ROI_rect.width = Constant::default_ROI_width;
-  ROI_rect.height = Constant::default_ROI_height;
-  ROI_rect.x = Constant::default_ROI_x;
-  ROI_rect.y = Constant::default_ROI_y;
+  cv::Rect ROI_rect = handler_.GetRoi();
   std::cout << "You can resize ROI. Use + to scale up and - to scale down."
             << std::endl;
   ROI_rect = SetRoiSize(ROI_rect, sample);
