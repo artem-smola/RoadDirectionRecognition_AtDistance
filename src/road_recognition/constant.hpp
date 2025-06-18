@@ -25,4 +25,10 @@ constexpr double variance_smoothing_factor = 0.8;
 
 constexpr size_t default_screen_width = 1920;
 constexpr size_t default_screen_height = 1080;
+
+constexpr size_t default_window_size = 21;
+constexpr size_t default_num_pyramid_levels = 3;
+
+constexpr size_t default_init_num_of_points = 250;
+constexpr size_t default_min_dist_between_good_points = 20;
 } // namespace Constant

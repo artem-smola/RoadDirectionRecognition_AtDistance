@@ -10,9 +10,15 @@ FlowHandler::FlowHandler(Reader &reader, size_t min_count, size_t min_variance)
       lower_bound_(Constant::ROI_border) {
   frame_ = reader_.Read();
 
-  double ROI_compression = GetCompressionToFitRectOnScreen(
-      cv::Size(Constant::default_ROI_width, Constant::default_ROI_height),
-      cv::Size(frame_.cols, frame_.rows));
+  correction_ = static_cast<double>(Constant::apollo_img_width) /
+                static_cast<double>(frame_.cols);
+
+  double ROI_compression = std::max(
+      correction_,
+      GetCompressionToFitRectOnScreen(
+          cv::Size(Constant::default_ROI_width, Constant::default_ROI_height),
+          cv::Size(frame_.cols, frame_.rows)));
+
   ROI_.width = static_cast<int>(
       static_cast<double>(Constant::default_ROI_width) / ROI_compression);
   ROI_.height = static_cast<int>(
@@ -24,8 +30,16 @@ FlowHandler::FlowHandler(Reader &reader, size_t min_count, size_t min_variance)
 
   default_ROI_position_ = cv::Point(ROI_.x, ROI_.y);
   cv::cvtColor(frame_, frame_gray_, cv::COLOR_BGR2GRAY);
-  cv::goodFeaturesToTrack(frame_gray_, points_, 250, 0.01, 20, cv::Mat(), 3,
-                          false, 0.04);
+  int init_num_of_points = std::max(
+      static_cast<double>(Constant::default_init_num_of_points) / correction_,
+      150.0);
+  int min_dist_between_good_points = std::max(
+      static_cast<double>(Constant::default_min_dist_between_good_points) /
+          correction_,
+      15.0);
+  cv::goodFeaturesToTrack(frame_gray_, points_, init_num_of_points, 0.01,
+                          min_dist_between_good_points, cv::Mat(), 3, false,
+                          0.04);
 }
 
 void FlowHandler::SetRoi(const cv::Rect &ROI) { ROI_ = ROI; }
@@ -58,17 +72,27 @@ bool FlowHandler::Next() {
       cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 30, 0.03);
 
   std::vector<cv::Point2f> next_points;
-
+  int window_size = static_cast<int>(std::max(
+      static_cast<double>(Constant::default_window_size) / correction_, 16.0));
   cv::calcOpticalFlowPyrLK(frame_gray_, next_frame_gray, points_, next_points,
-                           status, err, cv::Size(21, 21), 3, criteria);
+                           status, err, cv::Size(window_size, window_size),
+                           Constant::default_num_pyramid_levels, criteria);
 
   frame_ = next_frame;
   frame_gray_ = next_frame_gray;
 
   size_t count = std::count(status.begin(), status.end(), 1);
   if (count < min_count_) {
-    cv::goodFeaturesToTrack(frame_gray_, points_, 250, 0.01, 20, cv::Mat(), 3,
-                            false, 0.04);
+    int init_num_of_points = std::max(
+        static_cast<double>(Constant::default_init_num_of_points) / correction_,
+        150.0);
+    int min_dist_between_good_points = std::max(
+        static_cast<double>(Constant::default_min_dist_between_good_points) /
+            correction_,
+        15.0);
+    cv::goodFeaturesToTrack(frame_gray_, points_, init_num_of_points, 0.01,
+                            min_dist_between_good_points, cv::Mat(), 3, false,
+                            0.04);
     std::cout << "Tracking points refreshed!" << std::endl;
     return true;
   }
