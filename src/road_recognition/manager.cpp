@@ -14,7 +14,11 @@ ManagerDRR::ManagerDRR(Reader &reader, Writer &writer,
 
 void ManagerDRR::Process() {
   cv::Mat sample = handler_.GetSampleFrame();
-  cv::Rect ROI_rect = handler_.GetRoi();
+  cv::Rect ROI_rect;
+  ROI_rect.width = Constant::default_ROI_width;
+  ROI_rect.height = Constant::default_ROI_height;
+  ROI_rect.x = Constant::default_ROI_x;
+  ROI_rect.y = Constant::default_ROI_y;
   std::cout << "You can resize ROI. Use + to scale up and - to scale down."
             << std::endl;
   ROI_rect = SetRoiSize(ROI_rect, sample);
@@ -148,9 +152,7 @@ void FPSManagerDRR::Process() {
 }
 
 MetricsManager::MetricsManager(std::string path_to_txt)
-    : path_to_txt_(path_to_txt),
-      res_IoU_(Constant::init_incorrect_metric_value),
-      res_accuracy_(Constant::init_incorrect_metric_value) {}
+    : path_to_txt_(path_to_txt){}
 
 double MetricsManager::EvaluateIoU(const cv::Mat &marking_res,
                                    const cv::Mat &ground_truth) {
@@ -219,6 +221,41 @@ double MetricsManager::EvaluateAccuracy(const cv::Mat &marking_res,
   return static_cast<double>(num_true_positive + num_true_negative) /
          static_cast<double>(num_true_positive + num_true_negative +
                              num_false_positive + num_false_negative);
+}
+
+double MetricsManager::EvaluatePrecision(const cv::Mat &marking_res,
+                                         const cv::Mat &ground_truth) {
+  if (marking_res.rows != Constant::default_ROI_height ||
+      ground_truth.rows != Constant::default_ROI_height ||
+      marking_res.cols != Constant::default_ROI_width ||
+      ground_truth.cols != Constant::default_ROI_width) {
+    throw std::invalid_argument("Error: Incorrect image size");
+  }
+
+  int true_positive = 0;
+  int false_positive = 0;
+
+  for (int y = 0; y < marking_res.rows; y++) {
+    for (int x = 0; x < marking_res.cols; x++) {
+      bool is_marking_res_black = IsBlackPixel(marking_res.at<cv::Vec3b>(y, x));
+      bool is_ground_truth_black = IsBlackPixel(ground_truth.at<cv::Vec3b>(y, x));
+
+      if (!is_marking_res_black) {
+        if (!is_ground_truth_black) {
+          true_positive++;
+        } else {
+          false_positive++;
+        }
+      }
+    }
+  }
+
+  if (true_positive + false_positive == 0) {
+    return 1.0;
+  }
+
+  return static_cast<double>(true_positive) / 
+         static_cast<double>(true_positive + false_positive);
 }
 
 void MetricsManager::Process() {

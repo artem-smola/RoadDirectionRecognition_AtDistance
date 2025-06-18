@@ -1,4 +1,5 @@
 #include "upscale.hpp"
+#include <string>
 
 void UpscaleESPCN::Execute(cv::Mat &img) {
   std::string path = "../../models/ESPCN_x4.pb";
