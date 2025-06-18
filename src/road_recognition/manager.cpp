@@ -14,8 +14,26 @@ ManagerDRR::ManagerDRR(Reader &reader, Writer &writer,
 
 void ManagerDRR::Process() {
   cv::Mat sample = handler_.GetSampleFrame();
-  cv::Rect ROI_rect = SetRoiRect(sample);
+  cv::Rect ROI_rect;
+  ROI_rect.width = Constant::default_ROI_width;
+  ROI_rect.height = Constant::default_ROI_height;
+  ROI_rect.x = Constant::default_ROI_x;
+  ROI_rect.y = Constant::default_ROI_y;
+  std::cout << "You can resize ROI. Use + to scale up and - to scale down."
+            << std::endl;
+  ROI_rect = SetRoiSize(ROI_rect, sample);
+  std::cout
+      << "You can alter default ROI position (far side of the road in a "
+         "straight part of road). Use w, a, s, d to move and enter to complete."
+      << std::endl;
+  cv::Point default_ROI_position = SetDefaultRoiPosition(ROI_rect, sample);
+  std::cout << "Set initial ROI position. Use w, a, s, d to move and enter to "
+               "complete."
+            << std::endl;
+  ROI_rect = SetInitialRoiPosition(ROI_rect, sample);
   handler_.SetRoi(ROI_rect);
+  handler_.SetStandardRoiPosition(default_ROI_position);
+
   do {
     cv::Mat img = handler_.GetCurrentFrame();
     ROI_rect = handler_.GetRoi();
@@ -70,7 +88,15 @@ void FPSManagerDRR::Process() {
   std::string init_path = "/home/artem/Загрузки/ColorImage_road02/ColorImage/"
                           "Record001/Camera 5/170927_063811892_Camera_5.jpg";
   cv::Mat init_image = cv::imread(init_path);
-  cv::Rect ROI = SetRoiRect(init_image);
+  cv::Rect ROI;
+  ROI.width = Constant::default_ROI_width;
+  ROI.height = Constant::default_ROI_height;
+  ROI.x = Constant::default_ROI_x;
+  ROI.y = Constant::default_ROI_y;
+  ROI = SetRoiSize(ROI, init_image);
+  cv::Rect ROI_copy = ROI;
+  ROI = SetInitialRoiPosition(ROI, init_image);
+  cv::Point default_ROI_position = SetDefaultRoiPosition(ROI_copy, init_image);
   for (std::string str : st_nums) {
     std::string in_path_marked =
         "/home/artem/Загрузки/ColorImage_road02/ColorImage/Record" + str +
@@ -90,12 +116,13 @@ void FPSManagerDRR::Process() {
     FolderWriter writer_marked(out_path_marked, PhotoExtension::jpg);
     FolderWriter writer_gt(out_path_gt, PhotoExtension::jpg);
     handler.SetRoi(ROI);
+    handler.SetStandardRoiPosition(default_ROI_position);
     num_of_images += handler.GetSize();
     do {
       cv::Mat img = handler.GetCurrentFrame();
-      cv::Rect ROI_rect = handler.GetRoi();
-      cv::Mat ROI_img_marked = img(ROI_rect);
-      cv::Mat ROI_img_gt = img_gt(ROI_rect);
+      ROI = handler.GetRoi();
+      cv::Mat ROI_img_marked = img(ROI);
+      cv::Mat ROI_img_gt = img_gt(ROI);
       auto start = std::chrono::high_resolution_clock::now();
       marker_.MarkLaneAtDistance(ROI_img_marked);
       auto end = std::chrono::high_resolution_clock::now();
@@ -125,9 +152,7 @@ void FPSManagerDRR::Process() {
 }
 
 MetricsManager::MetricsManager(std::string path_to_txt)
-    : path_to_txt_(path_to_txt),
-      res_IoU_(Constant::init_incorrect_metric_value),
-      res_accuracy_(Constant::init_incorrect_metric_value) {}
+    : path_to_txt_(path_to_txt){}
 
 double MetricsManager::EvaluateIoU(const cv::Mat &marking_res,
                                    const cv::Mat &ground_truth) {
@@ -196,6 +221,41 @@ double MetricsManager::EvaluateAccuracy(const cv::Mat &marking_res,
   return static_cast<double>(num_true_positive + num_true_negative) /
          static_cast<double>(num_true_positive + num_true_negative +
                              num_false_positive + num_false_negative);
+}
+
+double MetricsManager::EvaluatePrecision(const cv::Mat &marking_res,
+                                         const cv::Mat &ground_truth) {
+  if (marking_res.rows != Constant::default_ROI_height ||
+      ground_truth.rows != Constant::default_ROI_height ||
+      marking_res.cols != Constant::default_ROI_width ||
+      ground_truth.cols != Constant::default_ROI_width) {
+    throw std::invalid_argument("Error: Incorrect image size");
+  }
+
+  int true_positive = 0;
+  int false_positive = 0;
+
+  for (int y = 0; y < marking_res.rows; y++) {
+    for (int x = 0; x < marking_res.cols; x++) {
+      bool is_marking_res_black = IsBlackPixel(marking_res.at<cv::Vec3b>(y, x));
+      bool is_ground_truth_black = IsBlackPixel(ground_truth.at<cv::Vec3b>(y, x));
+
+      if (!is_marking_res_black) {
+        if (!is_ground_truth_black) {
+          true_positive++;
+        } else {
+          false_positive++;
+        }
+      }
+    }
+  }
+
+  if (true_positive + false_positive == 0) {
+    return 1.0;
+  }
+
+  return static_cast<double>(true_positive) / 
+         static_cast<double>(true_positive + false_positive);
 }
 
 void MetricsManager::Process() {
@@ -344,7 +404,15 @@ void FPSManagerTLN::Process() {
   std::string init_path = "/home/artem/Загрузки/ColorImage_road02/ColorImage/"
                           "Record001/Camera 5/170927_063811892_Camera_5.jpg";
   cv::Mat init_image = cv::imread(init_path);
-  cv::Rect ROI = SetRoiRect(init_image);
+  cv::Rect ROI;
+  ROI.width = Constant::default_ROI_width;
+  ROI.height = Constant::default_ROI_height;
+  ROI.x = Constant::default_ROI_x;
+  ROI.y = Constant::default_ROI_y;
+  ROI = SetRoiSize(ROI, init_image);
+  cv::Rect ROI_copy = ROI;
+  ROI = SetInitialRoiPosition(ROI, init_image);
+  cv::Point default_ROI_position = SetDefaultRoiPosition(ROI_copy, init_image);
   TwinLiteNet model(
       "/home/artem/practice_4_sem/RoadDirectionRecognition_AtDistance/"
       "TwinLiteNet-onnxruntime/models/best.onnx");
@@ -366,6 +434,7 @@ void FPSManagerTLN::Process() {
     FolderWriter writer_marked(out_path_marked, PhotoExtension::jpg);
     FolderWriter writer_gt(out_path_gt, PhotoExtension::jpg);
     handler.SetRoi(ROI);
+    handler.SetStandardRoiPosition(default_ROI_position);
     num_of_images += handler.GetSize();
     do {
       cv::Mat img = handler.GetCurrentFrame();
@@ -380,10 +449,10 @@ void FPSManagerTLN::Process() {
       auto end = std::chrono::high_resolution_clock::now();
       cv::resize(
           img, img,
-          cv::Size(Constant::appolo_img_width, Constant::appolo_img_height));
-      cv::Rect ROI_rect = handler.GetRoi();
-      cv::Mat ROI_img_marked = img(ROI_rect);
-      cv::Mat ROI_img_gt = img_gt(ROI_rect);
+          cv::Size(Constant::apollo_img_width, Constant::apollo_img_height));
+      ROI = handler.GetRoi();
+      cv::Mat ROI_img_marked = img(ROI);
+      cv::Mat ROI_img_gt = img_gt(ROI);
       writer_marked.Write(ROI_img_marked);
       writer_gt.Write(ROI_img_gt);
       cv::imshow("ROI image marked", ROI_img_marked);
@@ -410,4 +479,55 @@ void FPSManagerTLN::Process() {
     file << "No images processed." << std::endl;
   }
   file.close();
+}
+
+RoiManager::RoiManager(Reader &reader)
+    : reader_(reader), handler_(reader, Constant::default_min_count,
+                                Constant::default_min_variance) {}
+
+void RoiManager::Process() {
+  cv::Mat sample = handler_.GetSampleFrame();
+  cv::Rect ROI;
+  ROI.width = Constant::default_ROI_width;
+  ROI.height = Constant::default_ROI_height;
+  ROI.x = Constant::default_ROI_x;
+  ROI.y = Constant::default_ROI_y;
+  std::cout << "You can resize ROI. Use + to scale up and - to scale down."
+            << std::endl;
+  ROI = SetRoiSize(ROI, sample);
+  cv::Point default_ROI_position;
+  std::cout
+      << "You can alter default ROI position (far side of the road in a "
+         "straight part of road). Use w, a, s, d to move and enter to complete."
+      << std::endl;
+  default_ROI_position = SetDefaultRoiPosition(ROI, sample);
+  std::cout << "You can alter ROI lower bound. Use up and down arrows to move "
+               "the bound and enter to complete."
+            << std::endl;
+  size_t lower_bound = SetRoiLowerBound(sample);
+  std::cout << "Set initial ROI position. Use w, a, s, d to move and enter to "
+               "complete."
+            << std::endl;
+  ROI = SetInitialRoiPosition(ROI, sample);
+  handler_.SetRoi(ROI);
+  handler_.SetStandardRoiPosition(default_ROI_position);
+  handler_.SetRoiLowerBound(lower_bound);
+  int key;
+  double compression = GetCompressionToFitRectOnScreen(
+      cv::Size(sample.cols, sample.rows),
+      cv::Size(Constant::default_screen_width,
+               Constant::default_screen_height));
+  std::cout << "Compression = " << compression << std::endl;
+  do {
+    cv::Mat frame = handler_.GetCurrentFrame();
+    ROI = handler_.GetRoi();
+    cv::rectangle(frame, ROI, cv::Scalar(0, 244, 0), 4);
+    cv::resize(
+        frame, frame,
+        cv::Size(
+            static_cast<int>(static_cast<double>(frame.cols) / compression),
+            static_cast<int>(static_cast<double>(frame.rows) / compression)));
+    cv::imshow("ROI test", frame);
+    key = cv::waitKey(10);
+  } while (handler_.Next() && key != 27);
 }

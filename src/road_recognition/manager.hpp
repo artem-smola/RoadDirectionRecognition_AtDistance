@@ -60,16 +60,22 @@ class MetricsManager {
 public:
   MetricsManager(std::string path_to_txt);
   void Process();
-  double GetIoU();
-  double GetAccuracy();
 
 private:
   double EvaluateIoU(const cv::Mat &marking_res, const cv::Mat &ground_truth);
   double EvaluateAccuracy(const cv::Mat &marking_res,
                           const cv::Mat &ground_truth);
+  double EvaluatePrecision(const cv::Mat &marking_res, const cv::Mat &ground_truth);
   void PrintHistogram(const std::vector<double> &data, int num_bins);
 
   std::string path_to_txt_;
-  double res_IoU_;
-  double res_accuracy_;
+};
+
+class RoiManager {
+public:
+  RoiManager(Reader &reader);
+  void Process();
+private:
+  Reader &reader_;
+  FlowHandler handler_;
 };
